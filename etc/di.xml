@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Klevu\Pipelines\Pipeline\PipelineBuilderInterface" type="Klevu\PlatformPipelines\Pipeline\PipelineBuilder"/>
+
+    <type name="Klevu\PlatformPipelines\ObjectManager\Container">
+        <arguments>
+            <argument name="preferences" xsi:type="array">
+                <item name="Klevu\Pipelines\Pipeline\PipelineBuilderInterface" xsi:type="string">Klevu\PlatformPipelines\Pipeline\PipelineBuilder</item>
+                <item name="Klevu\Pipelines\Pipeline\PipelineBuilder" xsi:type="string">Klevu\PlatformPipelines\Pipeline\PipelineBuilder</item>
+                <item name="Klevu\PhpSDKPipelines\Pipeline\PipelineBuilder" xsi:type="string">Klevu\PlatformPipelines\Pipeline\PipelineBuilder</item>
+                <item name="Klevu\Pipelines\ObjectManager\PipelineFqcnProviderInterface" xsi:type="string">Klevu\PlatformPipelines\ObjectManager\PipelineFqcnProvider</item>
+                <item name="Klevu\PhpSDKPipelines\ObjectManager\PipelineFqcnProvider" xsi:type="string">Klevu\PlatformPipelines\ObjectManager\PipelineFqcnProvider</item>
+                <item name="Klevu\Pipelines\ObjectManager\TransformerManagerInterface" xsi:type="string">Klevu\PlatformPipelines\ObjectManager\TransformerManager</item>
+                <item name="Klevu\PhpSDKPipelines\ObjectManager\TransformerManager" xsi:type="string">Klevu\PlatformPipelines\ObjectManager\TransformerManager</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Klevu\PlatformPipelines\Pipeline\PipelineBuilder">
+        <arguments>
+            <argument name="container" xsi:type="object">Klevu\PlatformPipelines\ObjectManager\Container</argument>
+        </arguments>
+    </type>
+</config>
