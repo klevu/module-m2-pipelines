@@ -15,6 +15,7 @@ use Klevu\Pipelines\Pipeline\ConfigurationBuilder;
 use Klevu\Pipelines\Pipeline\PipelineFactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class PipelineBuilder extends BasePipelineBuilder
 {
@@ -34,16 +35,18 @@ class PipelineBuilder extends BasePipelineBuilder
         ?ObjectManagerInterface $transformerManager = null,
         ?ObjectManagerInterface $validatorManager = null,
         ?PipelineFactoryInterface $pipelineFactory = null,
+        ?LoggerInterface $logger = null,
         ?string $defaultPipeline = null,
     ) {
         Container::setInstance($container);
 
         parent::__construct(
-            $configurationBuilder,
-            $transformerManager,
-            $validatorManager,
-            $pipelineFactory,
-            $defaultPipeline,
+            configurationBuilder: $configurationBuilder,
+            transformerManager: $transformerManager,
+            validatorManager: $validatorManager,
+            pipelineFactory: $pipelineFactory,
+            logger: $logger,
+            defaultPipeline: $defaultPipeline,
         );
     }
 
