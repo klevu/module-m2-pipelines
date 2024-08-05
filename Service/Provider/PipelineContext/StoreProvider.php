@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace Klevu\PlatformPipelines\Service\Provider\PipelineContext;
 
 use Klevu\Configuration\Service\Provider\ScopeProviderInterface;
+use Klevu\Customer\Service\Provider\GroupProviderInterface as CustomerGroupProviderInterface;
 use Klevu\PlatformPipelines\Api\PipelineContextProviderInterface;
+use Magento\Customer\Model\Group;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -22,17 +24,24 @@ class StoreProvider implements PipelineContextProviderInterface
      */
     private readonly ScopeProviderInterface $scopeProvider;
     /**
+     * @var CustomerGroupProviderInterface
+     */
+    private readonly CustomerGroupProviderInterface $customerGroupProvider;
+    /**
      * @var mixed[]
      */
     private array $contextForStoreId = [];
 
     /**
      * @param ScopeProviderInterface $scopeProvider
+     * @param CustomerGroupProviderInterface $customerGroupProvider
      */
     public function __construct(
         ScopeProviderInterface $scopeProvider,
+        CustomerGroupProviderInterface $customerGroupProvider,
     ) {
         $this->scopeProvider = $scopeProvider;
+        $this->customerGroupProvider = $customerGroupProvider;
     }
 
     /**
@@ -74,9 +83,23 @@ class StoreProvider implements PipelineContextProviderInterface
                     secure: $store->isFrontUrlSecure(),
                 ),
                 'store_id' => (int)$store->getId(),
+                'customer_groups' => $this->getCustomerGroupIds($store),
             ];
         }
 
         return $this->contextForStoreId[$storeId];
+    }
+
+    /**
+     * @param StoreInterface $store
+     *
+     * @return int[]
+     */
+    private function getCustomerGroupIds(StoreInterface $store): array
+    {
+        return array_filter(
+            array: array_keys(array: $this->customerGroupProvider->get(store: $store)),
+            callback: static fn (int $groupId): bool => $groupId !== Group::NOT_LOGGED_IN_ID,
+        );
     }
 }
