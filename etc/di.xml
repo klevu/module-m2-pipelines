@@ -21,4 +21,18 @@
             <argument name="container" xsi:type="object">Klevu\PlatformPipelines\ObjectManager\Container</argument>
         </arguments>
     </type>
+
+    <type name="Klevu\PlatformPipelines\ObjectManager\PipelineFqcnProvider">
+        <arguments>
+            <argument name="namespaces" xsi:type="array">
+                <item name="Klevu\PlatformPipelines\Pipeline\" xsi:type="const">Klevu\Pipelines\ObjectManager\ObjectManagerInterface::PRIORITY_NAMESPACE_SORT_ORDER</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Klevu\Pipelines\Pipeline\ConfigurationBuilder">
+        <plugin name="Klevu_PlatformPipelines::PipelineConfigurationBuilderPlugin"
+                type="Klevu\PlatformPipelines\Plugin\Pipelines\Pipeline\ConfigurationBuilderPlugin"/>
+    </type>
+
 </config>
