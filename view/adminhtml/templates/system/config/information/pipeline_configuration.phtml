@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Copyright © Klevu Oy. All rights reserved. See LICENSE.txt for license details.
+ */
+
+declare(strict_types=1);
+
+/**
+ * @var KlevuFieldset $block
+ * @var PipelineConfiguration $viewModel
+ */
+use Klevu\Configuration\Block\Adminhtml\Config\Form\KlevuFieldset;
+use Klevu\PlatformPipelines\ViewModel\Config\Information\PipelineConfiguration;
+
+$viewModel = $block->getViewModel();
+$escaper = $block->getEscaper();
+$pipelineConfigurationFilepath = $viewModel->getPipelineConfigurationFilepath();
+$pipelineConfigurationOverridesFilepaths = $viewModel->getPipelineConfigurationOverridesFilepaths();
+?>
+
+<?php // No opening table as template is output within a table due to subgroup ?>
+    <thead>
+        <tr>
+            <th colspan="2"><?= $escaper->escapeHtml($viewModel->getPipelineIdentifier()) ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Pipeline Configuration')->render()) ?></th>
+            <td>
+                <?php if ($pipelineConfigurationFilepath): ?>
+                    <ul>
+                        <li>
+                            <code><?= $escaper->escapeHtml($viewModel->getPipelineConfigurationFilepath()) ?></code>
+                        </li>
+                    </ul>
+                <?php else: ?>
+                    <strong><?= $escaper->escapeHtml(__('Pipeline is not configured correctly.')->render()) ?></strong>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Configuration Overrides')->render()) ?></th>
+            <td>
+                <ul>
+                    <?php foreach ($pipelineConfigurationOverridesFilepaths as $pipelineConfigurationOverridesFilepath): ?>
+                        <li>
+                            <code><?= $pipelineConfigurationOverridesFilepath ?></code>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+    </tbody>
+<?php // No closing table as template is output within a table due to subgroup ?>

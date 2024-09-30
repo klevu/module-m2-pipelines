@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Klevu\PlatformPipelines\Plugin\Pipelines\Pipeline;
 
-use Klevu\IndexingApi\Service\Action\ParseFilepathActionInterface;
 use Klevu\Pipelines\Pipeline\ConfigurationBuilder;
+use Klevu\PlatformPipelines\Service\Action\ParseFilepathActionInterface;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\View\Asset\Repository;
 

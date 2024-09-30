@@ -2,6 +2,30 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Klevu\Pipelines\Pipeline\PipelineBuilderInterface" type="Klevu\PlatformPipelines\Pipeline\PipelineBuilder"/>
 
+    <preference for="Klevu\PlatformPipelines\Api\ConfigurationOverridesBuilderInterface"
+                type="Klevu\PlatformPipelines\Service\ConfigurationOverridesBuilder"/>
+
+    <preference for="Klevu\PlatformPipelines\Api\ConfigurationOverridesHandlerInterface"
+                type="Klevu\PlatformPipelines\Service\ConfigurationOverridesHandler"/>
+
+    <preference for="Klevu\PlatformPipelines\Api\PipelineConfigurationOverridesFilepathsProviderInterface"
+                type="Klevu\PlatformPipelines\Service\Provider\PipelineConfigurationOverridesFilepathsProvider"/>
+
+    <preference for="Klevu\PlatformPipelines\Api\PipelineConfigurationProviderInterface"
+                type="Klevu\PlatformPipelines\Service\Provider\PipelineConfigurationProvider"/>
+
+    <preference for="Klevu\PlatformPipelines\Api\GenerateConfigurationOverridesContentActionInterface"
+                type="Klevu\PlatformPipelines\Service\Action\GenerateConfigurationOverridesContent"/>
+
+    <preference for="Klevu\PlatformPipelines\Service\Action\ParseFilepathActionInterface"
+                type="Klevu\PlatformPipelines\Service\Action\ParseFilepath"/>
+
+    <preference for="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProviderInterface"
+                type="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProvider"/>
+
+    <preference for="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProviderProviderInterface"
+                type="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProviderProvider"/>
+
     <type name="Klevu\PlatformPipelines\ObjectManager\Container">
         <arguments>
             <argument name="preferences" xsi:type="array">
@@ -13,6 +37,19 @@
                 <item name="Klevu\Pipelines\ObjectManager\TransformerManagerInterface" xsi:type="string">Klevu\PlatformPipelines\ObjectManager\TransformerManager</item>
                 <item name="Klevu\PhpSDKPipelines\ObjectManager\TransformerManager" xsi:type="string">Klevu\PlatformPipelines\ObjectManager\TransformerManager</item>
             </argument>
+        </arguments>
+    </type>
+
+    <type name="Klevu\PlatformPipelines\Service\ConfigurationOverridesHandler">
+        <arguments>
+            <argument name="configurationOverridesContentValidator" xsi:type="object">Klevu\PlatformPipelines\Validator\ConfigurationOverridesContentValidator</argument>
+        </arguments>
+    </type>
+
+    <type name="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProvider">
+        <arguments>
+            <argument name="fileDriver" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+            <argument name="filepathValidator" xsi:type="object">Klevu\PlatformPipelines\Validator\GeneratedConfigurationOverridesFilepathValidator</argument>
         </arguments>
     </type>
 
@@ -30,9 +67,30 @@
         </arguments>
     </type>
 
+    <type name="Klevu\PlatformPipelines\Service\Provider\PipelineConfigurationProvider">
+        <arguments>
+            <argument name="logger" xsi:type="object">Klevu\Configuration\Logger\Logger</argument>
+        </arguments>
+    </type>
+
     <type name="Klevu\Pipelines\Pipeline\ConfigurationBuilder">
         <plugin name="Klevu_PlatformPipelines::PipelineConfigurationBuilderPlugin"
                 type="Klevu\PlatformPipelines\Plugin\Pipelines\Pipeline\ConfigurationBuilderPlugin"/>
     </type>
 
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="klevu_pipelines_debug_configuration"
+                      xsi:type="object">Klevu\PlatformPipelines\Console\Command\ConfigurationDebugCommand\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Klevu\PlatformPipelines\Pipeline\ConfigurationBuilder\WithoutDefaults"
+                 type="Klevu\Pipelines\Pipeline\ConfigurationBuilder">
+        <arguments>
+            <argument name="injectDefaults" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
 </config>

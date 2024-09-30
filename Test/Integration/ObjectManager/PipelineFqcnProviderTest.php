@@ -10,7 +10,6 @@ namespace Klevu\PlatformPipelines\Test\Integration\ObjectManager;
 
 use Klevu\AnalyticsOrderSync\Pipeline\OrderAnalytics\Stage\MarkOrderAsProcessed;
 use Klevu\AnalyticsOrderSync\Pipeline\OrderAnalytics\Stage\MarkOrderAsProcessing;
-use Klevu\PhpSDKPipelines\ObjectManager\PipelineFqcnProvider;
 use Klevu\Pipelines\ObjectManager\PipelineFqcnProviderInterface;
 use Klevu\TestFixtures\Traits\ObjectInstantiationTrait;
 use Klevu\TestFixtures\Traits\TestImplementsInterfaceTrait;
@@ -19,6 +18,7 @@ use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Klevu\PlatformPipelines\ObjectManager\PipelineFqcnProvider::class
  * @method PipelineFqcnProviderInterface instantiateTestObject(?array $arguments = null)
  */
 class PipelineFqcnProviderTest extends TestCase
