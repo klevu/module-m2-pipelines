@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace Klevu\PlatformPipelines\Test\Integration\Plugin\Pipelines\Pipeline;
 
-use Klevu\IndexingApi\Service\Action\ParseFilepathActionInterface;
 use Klevu\Pipelines\Exception\Pipeline\InvalidPipelineConfigurationException;
 use Klevu\Pipelines\Pipeline\ConfigurationBuilder;
 use Klevu\PlatformPipelines\Plugin\Pipelines\Pipeline\ConfigurationBuilderPlugin;
+use Klevu\PlatformPipelines\Service\Action\ParseFilepathActionInterface;
 use Klevu\TestFixtures\Traits\ObjectInstantiationTrait;
 use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\Interception\PluginList\PluginList;
@@ -19,6 +19,9 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Klevu\PlatformPipelines\Plugin\Pipelines\Pipeline\ConfigurationBuilderPlugin::class
+ */
 class ConfigurationBuilderPluginTest extends TestCase
 {
     use ObjectInstantiationTrait;

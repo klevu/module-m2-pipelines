@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
 use TddWizard\Fixtures\Catalog\ProductFixturePool;
 
 /**
- * @covers SetCustomerGroupId
+ * @covers \Klevu\PlatformPipelines\Pipeline\Stage\SetCustomerGroupId::class
  * @method PipelineInterface instantiateTestObject(?array $arguments = null)
  * @method PipelineInterface instantiateTestObjectFromInterface(?array $arguments = null)
  */

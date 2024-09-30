@@ -17,6 +17,9 @@ use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 use TddWizard\Fixtures\Core\ConfigFixture;
 
+/**
+ * @covers \Klevu\PlatformPipelines\Service\Provider\PipelineContext\AuthProvider::class
+ */
 class AuthProviderTest extends TestCase
 {
     /**

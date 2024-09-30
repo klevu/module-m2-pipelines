@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 use TddWizard\Fixtures\Core\ConfigFixture;
 
 /**
- * @covers StoreProvider
+ * @covers \Klevu\PlatformPipelines\Service\Provider\PipelineContext\StoreProvider::class
  * @method StoreProvider instantiateTestObject(?array $arguments = null)
  * @method StoreProvider instantiateTestObjectFromInterface(?array $arguments = null)
  */
