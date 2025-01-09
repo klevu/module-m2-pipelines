@@ -28,7 +28,6 @@ use TddWizard\Fixtures\Core\ConfigFixture;
 /**
  * @covers \Klevu\PlatformPipelines\Console\Command\ConfigurationDebugCommand::class
  * @method ConfigurationDebugCommand instantiateTestObject(?array $arguments = null)
- * @group wip
  */
 class ConfigurationDebugCommandTest extends TestCase
 {
@@ -194,9 +193,6 @@ class ConfigurationDebugCommandTest extends TestCase
         );
     }
 
-    /**
-     * @group wipm
-     */
     public function testExecute_Compile_ReturnsError_WhenNoPipelineIdentifier(): void
     {
         $configurationDebugCommand = $this->instantiateTestObject();

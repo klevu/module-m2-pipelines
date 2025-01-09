@@ -23,6 +23,7 @@ use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 // phpcs:disable Generic.Files.LineLength.TooLong
 /**
@@ -83,8 +84,41 @@ class GeneratedConfigurationOverridesFilepathProviderTest extends TestCase
 
     public function testGet_ReturnsNull_WhenInvalidFilepathDefined_InProductionMode(): void
     {
+        $mockLogger = $this->getMockLogger(
+            expectedLogLevels: [
+                LogLevel::ERROR,
+            ],
+        );
+        $mockLogger->expects($this->once())
+            ->method('error')
+            ->with(
+                $this->stringContains('Invalid configuration overrides filepath defined: omitting from pipeline'),
+                $this->callback(
+                    callback: function (?array $context): bool {
+                        $this->assertIsArray($context);
+                        
+                        $this->assertArrayHasKey('method', $context);
+                        $this->assertArrayHasKey('filepathInVar', $context);
+                        $this->assertArrayHasKey('validationErrors', $context);
+
+                        $this->assertSame(
+                            expected: '/foo/bar',
+                            actual: $context['filepathInVar'],
+                        );
+                        $this->assertSame(
+                            expected: [
+                                'Invalid filepath',
+                            ],
+                            actual: $context['validationErrors'],
+                        );
+
+                        return true;
+                    },
+                ),
+            );
+        
         $provider = $this->instantiateTestObject([
-            'logger' => $this->getMockLogger(),
+            'logger' => $mockLogger,
             'appState' => $this->getMockAppState(
                 AppState::MODE_PRODUCTION,
             ),
@@ -181,7 +215,6 @@ class GeneratedConfigurationOverridesFilepathProviderTest extends TestCase
             ->getMock();
 
         $notExpectedLogLevels = array_diff(
-            $expectedLogLevels,
             [
                 'emergency',
                 'alert',
@@ -192,6 +225,7 @@ class GeneratedConfigurationOverridesFilepathProviderTest extends TestCase
                 'info',
                 'debug',
             ],
+            $expectedLogLevels,
         );
         foreach ($notExpectedLogLevels as $notExpectedLogLevel) {
             $mockLogger->expects($this->never())
