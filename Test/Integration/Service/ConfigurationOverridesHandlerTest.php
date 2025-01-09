@@ -46,6 +46,10 @@ class ConfigurationOverridesHandlerTest extends TestCase
      * @var DirectoryList|null
      */
     private ?DirectoryList $directoryList = null;
+    /**
+     * @var FileIo|null
+     */
+    private ?FileIo $fileIo = null;
 
     /**
      * @return void
@@ -60,6 +64,7 @@ class ConfigurationOverridesHandlerTest extends TestCase
         $this->interfaceFqcn = ConfigurationOverridesHandlerInterface::class;
 
         $this->directoryList = $this->objectManager->get(DirectoryList::class);
+        $this->fileIo = $this->objectManager->get(FileIo::class);
     }
 
     public function testExecute_PerformsNoAction_WhenGenerationDisabled(): void
@@ -69,7 +74,11 @@ class ConfigurationOverridesHandlerTest extends TestCase
             value: 0,
         );
 
-        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime() . '.yml';
+        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime(true) . '.yml';
+        $absoluteFilepath = $this->directoryList->getPath(AppDirectoryList::VAR_DIR)
+            . DIRECTORY_SEPARATOR
+            . $filepathInVar;
+
         $handler = $this->instantiateTestObject([
             'logger' => $this->getMockLogger(
                 expectedLogLevels: [],
@@ -80,6 +89,8 @@ class ConfigurationOverridesHandlerTest extends TestCase
             ),
             'fileSystemWrite' => $this->getMockFileIoWithNoAction(),
         ]);
+
+        $this->fileIo->rm($absoluteFilepath);
 
         $handler->execute();
     }
@@ -112,7 +123,7 @@ class ConfigurationOverridesHandlerTest extends TestCase
             value: 1,
         );
 
-        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime() . '.yml';
+        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime(true) . '.yml';
         $absoluteFilepath = $this->directoryList->getPath(AppDirectoryList::VAR_DIR)
             . DIRECTORY_SEPARATOR
             . $filepathInVar;
@@ -167,6 +178,8 @@ class ConfigurationOverridesHandlerTest extends TestCase
             'forceFileRegeneration' => false,
         ]);
 
+        $this->fileIo->rm($absoluteFilepath);
+
         $handler->execute();
     }
 
@@ -177,7 +190,8 @@ class ConfigurationOverridesHandlerTest extends TestCase
             value: 1,
         );
 
-        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime() . '.yml';
+        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime(true) . '.yml';
+
         $handler = $this->instantiateTestObject([
             'logger' => $this->getMockLogger(
                 expectedLogLevels: [],
@@ -200,7 +214,7 @@ class ConfigurationOverridesHandlerTest extends TestCase
             value: 1,
         );
 
-        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime() . '.yml';
+        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime(true) . '.yml';
         $absoluteFilepath = $this->directoryList->getPath(AppDirectoryList::VAR_DIR)
             . DIRECTORY_SEPARATOR
             . $filepathInVar;
@@ -255,6 +269,8 @@ class ConfigurationOverridesHandlerTest extends TestCase
             'forceFileRegeneration' => true,
         ]);
 
+        $this->fileIo->rm($absoluteFilepath);
+
         $handler->execute();
     }
 
@@ -265,7 +281,11 @@ class ConfigurationOverridesHandlerTest extends TestCase
             value: 1,
         );
 
-        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime() . '.yml';
+        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime(true) . '.yml';
+        $absoluteFilepath = $this->directoryList->getPath(AppDirectoryList::VAR_DIR)
+            . DIRECTORY_SEPARATOR
+            . $filepathInVar;
+
         $handler = $this->instantiateTestObject([
             'logger' => $this->getMockLogger(
                 expectedLogLevels: [],
@@ -284,6 +304,8 @@ class ConfigurationOverridesHandlerTest extends TestCase
         $this->expectException(CouldNotGenerateConfigurationOverridesException::class);
         $this->expectExceptionMessage('Error generating configuration overrides content: Test Error');
 
+        $this->fileIo->rm($absoluteFilepath);
+
         $handler->execute();
     }
 
@@ -294,7 +316,11 @@ class ConfigurationOverridesHandlerTest extends TestCase
             value: 1,
         );
 
-        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime() . '.yml';
+        $filepathInVar = 'klevu-phpunit/testExecute_PerformsNoAction_WhenGenerationDisabled' . microtime(true) . '.yml';
+        $absoluteFilepath = $this->directoryList->getPath(AppDirectoryList::VAR_DIR)
+            . DIRECTORY_SEPARATOR
+            . $filepathInVar;
+
         $handler = $this->instantiateTestObject([
             'logger' => $this->getMockLogger(
                 expectedLogLevels: [],
@@ -320,6 +346,8 @@ class ConfigurationOverridesHandlerTest extends TestCase
         $this->expectException(CouldNotGenerateConfigurationOverridesException::class);
         $this->expectExceptionMessage('Generated overrides content is invalid: Test Error, Another test error');
 
+        $this->fileIo->rm($absoluteFilepath);
+
         $handler->execute();
     }
 
@@ -335,7 +363,6 @@ class ConfigurationOverridesHandlerTest extends TestCase
             ->getMock();
 
         $notExpectedLogLevels = array_diff(
-            $expectedLogLevels,
             [
                 'emergency',
                 'alert',
@@ -346,6 +373,7 @@ class ConfigurationOverridesHandlerTest extends TestCase
                 'info',
                 'debug',
             ],
+            $expectedLogLevels,
         );
         foreach ($notExpectedLogLevels as $notExpectedLogLevel) {
             $mockLogger->expects($this->never())
@@ -405,7 +433,13 @@ class ConfigurationOverridesHandlerTest extends TestCase
                 . $filepathInVar;
 
             if ($touchFile) {
-                touch($absoluteFilepath);
+                $this->fileIo->checkAndCreateFolder(
+                    folder: pathinfo($absoluteFilepath, PATHINFO_DIRNAME),
+                );
+                $this->fileIo->write(
+                    filename: $absoluteFilepath,
+                    src: '',
+                );
             }
         } else {
             $absoluteFilepath = null;

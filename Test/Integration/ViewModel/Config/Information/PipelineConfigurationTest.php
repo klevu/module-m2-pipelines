@@ -137,6 +137,7 @@ class PipelineConfigurationTest extends TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @dataProvider dataProvider_testGetPipelineConfigurationOverridesFilepaths
      *
      * @param string $pipelineIdentifier
