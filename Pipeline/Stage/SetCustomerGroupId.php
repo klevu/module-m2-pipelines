@@ -16,6 +16,13 @@ use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
+/**
+ * @warning do not use to calculate prices
+ * Setting customer group ID in the session works when syncing via CLI, but not cron.
+ * Catalog Price rules will be ignored.
+ * Set the customer group id on the product instead
+ * @see \Klevu\IndexingProducts\Pipeline\Transformer\SetDataOnProduct
+ */
 class SetCustomerGroupId implements PipelineInterface
 {
     use StagesNotSupportedTrait;
