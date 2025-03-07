@@ -55,6 +55,8 @@
 
     <type name="Klevu\PlatformPipelines\Pipeline\PipelineBuilder">
         <arguments>
+            <argument name="configurationBuilder"
+                      xsi:type="object">Klevu\PlatformPipelines\Pipeline\ConfigurationBuilder\WithoutDefaults</argument>
             <argument name="container" xsi:type="object">Klevu\PlatformPipelines\ObjectManager\Container</argument>
         </arguments>
     </type>
