@@ -23,9 +23,6 @@
     <preference for="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProviderInterface"
                 type="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProvider"/>
 
-    <preference for="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProviderProviderInterface"
-                type="Klevu\PlatformPipelines\Service\Provider\GeneratedConfigurationOverridesFilepathProviderProvider"/>
-
     <type name="Klevu\PlatformPipelines\ObjectManager\Container">
         <arguments>
             <argument name="preferences" xsi:type="array">
