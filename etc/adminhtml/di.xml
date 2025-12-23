@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- Copyright © Klevu Oy. All rights reserved. See LICENSE.txt for license details. -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Klevu\Configuration\ViewModel\Config\Information\ModuleVersions">
+        <arguments>
+            <argument name="composerPackageIdentifiers" xsi:type="array">
+                <item name="klevu_php_pipelines" xsi:type="string"><![CDATA[klevu/php-pipelines]]></item>
+                <item name="klevu_php_sdk" xsi:type="string"><![CDATA[klevu/php-sdk]]></item>
+                <item name="klevu_php_sdk_pipelines" xsi:type="string"><![CDATA[klevu/php-sdk-pipelines]]></item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>
